@@ -266,7 +266,7 @@ const Home = () => {
                     <p style={styles.ctaSubtitle}>
                         Join millions of movie lovers and create your ultimate watchlist
                     </p>
-                    <div>
+                    <div >
                         <button
                             style={{ ...styles.buttonPrimary, backgroundColor: 'white', color: '#FF6B6B' }}
                             onMouseEnter={(e) => {

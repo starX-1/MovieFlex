@@ -46,7 +46,7 @@ const styles = {
     fontWeight: '600',
     border: 'none',
     cursor: 'pointer',
-    margin: '0 8px',
+    margin: '12px',
     boxShadow: '0 10px 25px rgba(255, 107, 107, 0.3)',
     transition: 'all 0.3s ease',
     fontSize: '1.1rem'
