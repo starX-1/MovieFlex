@@ -36,8 +36,31 @@ The landing hero features animated icons, floating emojis, and random popular mo
 ---
 
 ## 📸 Screenshots
+### Here are some key pages
 
-![Home](screenshots/home.png)  ![Explore](screenshots/explorepopular.png) ![Movie Detail](screenshots/singlemovie.png) ![Popular](screenshots/popular.png) ![Genre Search](screenshots/genre.png) ![Action genre](screenshots/action.png) ![Top Rated](screenshots/toprated.png) 
+#### Home Page
+![Home](screenshots/home.png) 
+
+#### Explore Page
+![Explore](screenshots/explorepopular.png) 
+
+#### Single Movie Page
+![Movie Detail](screenshots/singlemovie.png) 
+
+#### Popular Section
+![Popular](screenshots/popular.png) 
+
+#### Genre Search Section
+![Genre Search](screenshots/genre.png) 
+
+#### Action Genre Page
+![Action genre](screenshots/action.png) 
+
+#### Trending Section
+![Trending](screenshots/trending.png) 
+
+#### Top Rated Page
+![Top Rated](screenshots/toprated.png) 
 
 ---
 
