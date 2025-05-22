@@ -82,8 +82,10 @@ Set up environment variables
 
 Create a .env file in the root and add your TMDB API key:
 
+```bash
 VITE_API_KEY=your_tmdb_api_key
 VITE_BASE_URL = https://api.themoviedb.org/3
+```
 ---
 Start the development server
 
