@@ -37,9 +37,7 @@ The landing hero features animated icons, floating emojis, and random popular mo
 
 ## 📸 Screenshots
 
-| Home Page | Explore Page | Movie Detail |
-|----------|--------------|--------------|
-| ![Home](screenshots/home.png) | ![Explore](screenshots/explorepopular.png) | ![Movie Detail](screenshots/singlemovie.png) | ![Popular](screenshots/popular.png) | ![Genre Search](screenshots/genre.png) | ![Action genre](screenshots/action.png) | ![Top Rated](screenshots/toprated.png) | 
+![Home](screenshots/home.png)  ![Explore](screenshots/explorepopular.png) ![Movie Detail](screenshots/singlemovie.png) ![Popular](screenshots/popular.png) ![Genre Search](screenshots/genre.png) ![Action genre](screenshots/action.png) ![Top Rated](screenshots/toprated.png) 
 
 ---
 
@@ -50,11 +48,12 @@ The landing hero features animated icons, floating emojis, and random popular mo
 ```bash
 git clone https://github.com/your-username/MovieFlex.git
 cd MovieFlex
+```
 2. **Install dependencies**
 
 ```bash
 npm install
-
+```
 ---
 Set up environment variables
 
@@ -67,3 +66,4 @@ Start the development server
 
 ```bash
 npm run dev
+```
