@@ -5,6 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import "./MovieDetail.css";
 import { fetchSingleMovie } from "../services/MovieApi";
 import { fetchTrailer } from "../services/MovieApi";
+import { Loader, Placeholder } from 'rsuite';
+import { CircleLoader } from "react-spinners";
 
 const MovieDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -18,15 +20,19 @@ const MovieDetail = () => {
             try {
                 const response = await fetchSingleMovie(id);
                 setMovie(response);
-                await fetchTrailerData(); // Call the local fetchTrailerData function
-                setLoading(false);
+                await fetchTrailerData();
+
+                // Simulate delay (e.g., 2 seconds)
+                setTimeout(() => {
+                    setLoading(false);
+                }, 2000);
             } catch (error) {
                 console.error("Error fetching movie:", error);
                 setLoading(false);
             }
         };
 
-        const fetchTrailerData = async () => { // Renamed to avoid conflict with imported function
+        const fetchTrailerData = async () => {
             try {
                 const response = await fetchTrailer(id);
                 setTrailerKey(response.key);
@@ -34,10 +40,26 @@ const MovieDetail = () => {
                 console.error("Error fetching trailer:", error);
             }
         };
+
         fetchMovie();
     }, [id]);
 
-    if (loading) return <div className="text-center text-white py-5">Loading...</div>;
+
+    if (loading) {
+    return (
+        <div style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            backgroundColor: "#000" // optional: make it blend with your theme
+        }}>
+            <CircleLoader color="white" />
+        </div>
+    );
+}
+
+
     if (!movie) return <div className="text-center text-danger py-5">Movie not found.</div>;
 
     return (

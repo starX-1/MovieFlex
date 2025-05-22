@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 import { fetchMoviesByGenre } from "../services/MovieApi";
 import "./Explore.css";
+import { CircleLoader } from "react-spinners";
 
 const GenreExplorePage = () => {
     const { id } = useParams();
@@ -34,9 +35,13 @@ const GenreExplorePage = () => {
         } catch (error) {
             console.error("Error fetching genre movies:", error);
         } finally {
-            setLoading(false);
+            // Delay hiding the loader by 2 seconds
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000);
         }
     };
+
 
     const handleLoadMore = () => {
         loadMovies(page + 1);
@@ -67,8 +72,20 @@ const GenreExplorePage = () => {
                 ))}
             </div>
 
-            {loading && <div className="text-light text-center my-4">Loading...</div>}
+            {loading && (
 
+
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                    backgroundColor: "#000" // optional: make it blend with your theme
+                }}>
+                    <CircleLoader color="white" />
+                </div>
+            )
+            }
             {!loading && hasMore && (
                 <div className="text-center mt-4">
                     <button className="btn btn-outline-warning px-4 py-2" onClick={handleLoadMore}>
