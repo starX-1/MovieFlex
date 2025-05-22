@@ -1,0 +1,52 @@
+.movie-detail-page {
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.85);
+    min-height: 100vh;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.movie-poster {
+    max-height: 500px;
+    transition: transform 0.4s ease;
+}
+
+.movie-poster:hover {
+    transform: scale(1.03);
+}
+
+.movie-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.movie-meta {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ccc;
+    margin-bottom: 1rem;
+}
+
+.movie-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+}
+
+.rating-box {
+    font-size: 1.25rem;
+}
+
+button.btn-warning {
+    font-weight: 600;
+    padding: 0.5rem 2rem;
+    border-radius: 30px;
+}
