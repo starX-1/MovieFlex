@@ -5,6 +5,10 @@ import genres from '../constants/genres';
 import { fetchMovies } from '../services/MovieApi';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from '../components/Hero';
+import { auth } from '../firebase';
+import { onAuthStateChanged } from "firebase/auth";
+
+
 
 const Home = () => {
     const [featuredMovies, setFeaturedMovies] = useState([]);
@@ -13,6 +17,16 @@ const Home = () => {
     const [topRatedMovies, setTopRatedMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            setUser(firebaseUser);
+        });
+
+        return () => unsubscribe(); // Cleanup listener
+    }, []);
 
     // Movie genres for categories
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
@@ -72,8 +86,22 @@ const Home = () => {
                 e.currentTarget.style.boxShadow = 'none';
             }}
         >
-            <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                <div style={{ position: 'relative' }}>
+            {/* <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}> */}
+
+            <div style={{ position: 'relative' }}>
+                {/* if user in localStorage then go to movie player page */}
+                {user ? (
+                    <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                        <img
+                            src={getPosterUrl(movie, featured ? 'w500' : 'w300')}
+                            alt={movie.title}
+                            style={{
+                                ...styles.movieImage,
+                                height: featured ? '400px' : '300px'
+                            }}
+                        />
+                    </Link>
+                ) : (
                     <img
                         src={getPosterUrl(movie, featured ? 'w500' : 'w300')}
                         alt={movie.title}
@@ -82,29 +110,34 @@ const Home = () => {
                             height: featured ? '400px' : '300px'
                         }}
                     />
+                )}
 
-                    {/* Rating badge */}
-                    {movie.vote_average && (
-                        <div style={styles.ratingBadge}>
-                            <span>⭐</span>
-                            {movie.vote_average.toFixed(1)}
-                        </div>
-                    )}
-                </div>
 
-                <div style={styles.movieContent}>
-                    <h3 style={styles.movieTitle}>
-                        {movie.title}
-                    </h3>
-                    <p style={styles.movieYear}>
-                        {getYear(movie.release_date)}
-                    </p>
-                    <div style={styles.movieRating}>
-                        <span>🎬</span>
-                        <span>{movie.vote_count} votes</span>
+                {/* Rating badge */}
+                {movie.vote_average && (
+                    <div style={styles.ratingBadge}>
+                        <span>⭐</span>
+                        {movie.vote_average.toFixed(1)}
                     </div>
+                )}
+            </div>
+
+            <div style={styles.movieContent}>
+                <h3 style={styles.movieTitle}>
+                    {movie.title}
+                </h3>
+                <p style={styles.movieYear}>
+                    {getYear(movie.release_date)}
+                </p>
+                <div style={styles.movieRating}>
+                    <span>🎬</span>
+                    <span>{movie.vote_count} votes</span>
+                    <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                        <button style={{ ...styles.movieButton, marginLeft: '10px', borderRadius: '10px', padding: '5px', }}>Details</button>
+                    </Link>
                 </div>
-            </Link>
+            </div>
+            {/* </Link> */}
         </div>
     );
 
@@ -140,7 +173,7 @@ const Home = () => {
 
             {/* Hero Section */}
             <HeroSection />
-                
+
 
             {/* Statistics Section */}
             <div style={styles.statsContainer}>

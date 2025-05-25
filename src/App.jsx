@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import MovieDetail from "./pages/MovieDetail";
 import ExplorePage from "./pages/ExplorePage";
 import GenreExplorePage from "./pages/GenreExplorePage";
+import FinishSignIn from "./pages/FinishSignin";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* <Route path="/search" element={<Search />} /> */}
           <Route path="/login" element={<Login />} />
+          <Route path="finishSignin" element={<FinishSignIn />} />
           <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/genre/:id" element={<GenreExplorePage />} />
