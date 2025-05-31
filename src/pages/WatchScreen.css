@@ -1,0 +1,58 @@
+/* src/pages/WatchScreen.css */
+.watch-container {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #0d0d0d;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+    gap: 20px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.player-section {
+    flex: 1 1 60%;
+    min-width: 320px;
+    aspect-ratio: 16 / 9;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+}
+
+.player-section iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.details-section {
+    flex: 1 1 35%;
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.details-section h2 {
+    margin-top: 0;
+    color: #c9cc04;
+}
+
+.details-section p {
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+.back-button {
+    margin-top: 20px;
+    padding: 10px 16px;
+    border: none;
+    background: #a9ac03;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}

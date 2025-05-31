@@ -8,6 +8,7 @@ import MovieDetail from "./pages/MovieDetail";
 import ExplorePage from "./pages/ExplorePage";
 import GenreExplorePage from "./pages/GenreExplorePage";
 import FinishSignIn from "./pages/FinishSignin";
+import WatchScreen from "./pages/WatchScreen";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/genre/:id" element={<GenreExplorePage />} />
           <Route path="/book/:id" element={<BookDetails />} />
+          <Route path="/watch/:imdbId" element={<WatchScreen />} />
         </Routes>
       </div>
     </Router>

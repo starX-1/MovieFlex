@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { fetchMoviesByGenre } from "../services/MovieApi";
 import "./Explore.css";
 import { CircleLoader } from "react-spinners";
+import { onAuthStateChanged } from "firebase/auth"; // or your auth provider
+import { auth } from "../firebase"; // your firebase config
+import { fetchImdbId } from "../services/MovieApi";
 
 const GenreExplorePage = () => {
     const { id } = useParams();
@@ -13,6 +16,15 @@ const GenreExplorePage = () => {
     const [hasMore, setHasMore] = useState(true);
 
     const genreName = location.state?.genreName || "Selected Genre";
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();  // initialize navigate
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            setUser(firebaseUser);
+        });
+        return () => unsubscribe();
+    }, []);
 
     useEffect(() => {
         // Reset on new genre ID
@@ -41,7 +53,18 @@ const GenreExplorePage = () => {
             }, 2000);
         }
     };
-
+    const handleImageClick = async (movie) => {
+        if (!user) {
+            alert("Please Login to watch movies");
+            return;
+        }
+        const imdbId = await fetchImdbId(movie.id);  // make sure fetchImdbId is imported
+        if (imdbId) {
+            navigate(`/watch/${imdbId}`);
+        } else {
+            alert("IMDB ID not found for this movie");
+        }
+    };
 
     const handleLoadMore = () => {
         loadMovies(page + 1);
@@ -55,19 +78,21 @@ const GenreExplorePage = () => {
             <div className="row">
                 {movies.map((movie) => (
                     <div key={movie.id} className="col-6 col-md-4 col-lg-3 mb-4">
-                        <Link to={`/movie/${movie.id}`} className="text-decoration-none">
-                            <div className="card bg-dark text-white h-100 shadow-sm">
-                                <img
-                                    src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                                    className="card-img-top"
-                                    alt={movie.title}
-                                />
-                                <div className="card-body">
-                                    <h5 className="card-title">{movie.title}</h5>
-                                    <p className="card-text text-muted">⭐ {movie.vote_average.toFixed(1)}</p>
-                                </div>
+                        <div className="card bg-dark text-white h-100 shadow-sm">
+                            <img
+                                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                                className="card-img-top"
+                                alt={movie.title}
+                                onClick={() => handleImageClick(movie)} // Ensure this function is defined
+                            />
+                            <div className="card-body">
+                                <h5 className="card-title">{movie.title}</h5>
+                                <p className="card-text text-muted">⭐ {movie.vote_average.toFixed(1)}</p>
+                                <Link to={`/movie/${movie.id}`} className="text-decoration-none">
+                                    <button className="btn btn-outline-warning btn-sm">Details</button>
+                                </Link>
                             </div>
-                        </Link>
+                        </div>
                     </div>
                 ))}
             </div>

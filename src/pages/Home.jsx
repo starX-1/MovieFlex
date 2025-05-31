@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './homestyle';
 import genres from '../constants/genres';
-import { fetchMovies } from '../services/MovieApi';
+import { fetchImdbId, fetchMovies } from '../services/MovieApi';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from '../components/Hero';
 import { auth } from '../firebase';
@@ -31,9 +31,19 @@ const Home = () => {
     // Movie genres for categories
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
 
-    // Fetch movies from TMDb API
-
-
+    const handleImageClick = async (movie) => {
+        if (!user) {
+            alert("Please Login to watch movies")
+            return;
+        }
+        const imdbId = await fetchImdbId(movie.id);
+        if (imdbId) {
+            navigate(`/watch/${imdbId}`);
+        }
+        else {
+            alert("IMDB ID not found for this movie");
+        }
+    }
     // Fetch different categories of movies
     useEffect(() => {
         const loadMovies = async () => {
@@ -76,7 +86,13 @@ const Home = () => {
     // Movie card component
     const MovieCard = ({ movie, featured = false }) => (
         <div
-            style={styles.movieCard}
+            style={{
+                ...styles.movieCard,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                height: featured ? '550px' : '500px',
+            }}
             onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-10px) scale(1.03)';
                 e.currentTarget.style.boxShadow = '0 25px 50px rgba(255, 107, 107, 0.3)';
@@ -86,34 +102,32 @@ const Home = () => {
                 e.currentTarget.style.boxShadow = 'none';
             }}
         >
-            {/* <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}> */}
-
             <div style={{ position: 'relative' }}>
-                {/* if user in localStorage then go to movie player page */}
                 {user ? (
-                    <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                        <img
-                            src={getPosterUrl(movie, featured ? 'w500' : 'w300')}
-                            alt={movie.title}
-                            style={{
-                                ...styles.movieImage,
-                                height: featured ? '400px' : '300px'
-                            }}
-                        />
-                    </Link>
+                    <img
+                        src={getPosterUrl(movie, featured ? 'w500' : 'w300')}
+                        alt={movie.title}
+                        style={{
+                            ...styles.movieImage,
+                            height: featured ? '400px' : '300px',
+                            width: '100%',
+                            objectFit: 'cover',
+                        }}
+                        onClick={() => handleImageClick(movie)}
+                    />
                 ) : (
                     <img
                         src={getPosterUrl(movie, featured ? 'w500' : 'w300')}
                         alt={movie.title}
                         style={{
                             ...styles.movieImage,
-                            height: featured ? '400px' : '300px'
+                            height: featured ? '400px' : '300px',
+                            width: '100%',
+                            objectFit: 'cover',
                         }}
                     />
                 )}
 
-
-                {/* Rating badge */}
                 {movie.vote_average && (
                     <div style={styles.ratingBadge}>
                         <span>⭐</span>
@@ -122,24 +136,25 @@ const Home = () => {
                 )}
             </div>
 
-            <div style={styles.movieContent}>
-                <h3 style={styles.movieTitle}>
-                    {movie.title}
-                </h3>
-                <p style={styles.movieYear}>
-                    {getYear(movie.release_date)}
-                </p>
+            <div style={{ padding: '10px', flexGrow: 1 }}>
+                <h3 style={styles.movieTitle}>{movie.title}</h3>
+                <p style={styles.movieYear}>{getYear(movie.release_date)}</p>
                 <div style={styles.movieRating}>
                     <span>🎬</span>
                     <span>{movie.vote_count} votes</span>
-                    <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                        <button style={{ ...styles.movieButton, marginLeft: '10px', borderRadius: '10px', padding: '5px', }}>Details</button>
-                    </Link>
                 </div>
             </div>
-            {/* </Link> */}
+
+            <div style={{ padding: '10px', textAlign: 'center' }}>
+                <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                    <button className='btn btn-outline-warning btn-sm' style={{ width: '100%' }}>
+                        Details
+                    </button>
+                </Link>
+            </div>
         </div>
     );
+
 
     // Loading skeleton
     const MovieSkeleton = () => (
