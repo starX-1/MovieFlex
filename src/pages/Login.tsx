@@ -12,7 +12,7 @@ export default function Login() {
         setLoading(true);
 
         const actionCodeSettings = {
-            url: "http://localhost:5173/finishSignIn", // make sure this matches your route
+            url: "https://movie-flex-pi.vercel.app//finishSignIn", // make sure this matches your route
             handleCodeInApp: true,
         };
 
