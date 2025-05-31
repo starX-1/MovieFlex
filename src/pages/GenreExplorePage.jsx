@@ -6,6 +6,7 @@ import { CircleLoader } from "react-spinners";
 import { onAuthStateChanged } from "firebase/auth"; // or your auth provider
 import { auth } from "../firebase"; // your firebase config
 import { fetchImdbId } from "../services/MovieApi";
+import { toast } from "react-toastify";
 
 const GenreExplorePage = () => {
     const { id } = useParams();
@@ -55,7 +56,8 @@ const GenreExplorePage = () => {
     };
     const handleImageClick = async (movie) => {
         if (!user) {
-            alert("Please Login to watch movies");
+            toast.error("Please Login to watch movies");
+            navigate('/login');
             return;
         }
         const imdbId = await fetchImdbId(movie.id);  // make sure fetchImdbId is imported

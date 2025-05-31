@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import HeroSection from '../components/Hero';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from "firebase/auth";
+import { toast } from 'react-toastify';
 
 
 
@@ -24,8 +25,7 @@ const Home = () => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
             setUser(firebaseUser);
         });
-
-        return () => unsubscribe(); // Cleanup listener
+        return () => unsubscribe();
     }, []);
 
     // Movie genres for categories
@@ -33,7 +33,8 @@ const Home = () => {
 
     const handleImageClick = async (movie) => {
         if (!user) {
-            alert("Please Login to watch movies")
+            toast.error("Please Login to watch movies");
+            navigate('/login');
             return;
         }
         const imdbId = await fetchImdbId(movie.id);
@@ -103,7 +104,19 @@ const Home = () => {
             }}
         >
             <div style={{ position: 'relative' }}>
-                {user ? (
+
+                <img
+                    src={getPosterUrl(movie, featured ? 'w500' : 'w300')}
+                    alt={movie.title}
+                    style={{
+                        ...styles.movieImage,
+                        height: featured ? '400px' : '300px',
+                        width: '100%',
+                        objectFit: 'cover',
+                    }}
+                    onClick={() => handleImageClick(movie)}
+                />
+                {/* ) : (
                     <img
                         src={getPosterUrl(movie, featured ? 'w500' : 'w300')}
                         alt={movie.title}
@@ -113,20 +126,8 @@ const Home = () => {
                             width: '100%',
                             objectFit: 'cover',
                         }}
-                        onClick={() => handleImageClick(movie)}
                     />
-                ) : (
-                    <img
-                        src={getPosterUrl(movie, featured ? 'w500' : 'w300')}
-                        alt={movie.title}
-                        style={{
-                            ...styles.movieImage,
-                            height: featured ? '400px' : '300px',
-                            width: '100%',
-                            objectFit: 'cover',
-                        }}
-                    />
-                )}
+                )} */}
 
                 {movie.vote_average && (
                     <div style={styles.ratingBadge}>
