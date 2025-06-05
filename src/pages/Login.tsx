@@ -2,6 +2,7 @@ import { useState } from "react";
 import { sendSignInLinkToEmail } from "firebase/auth";
 import { auth } from "../firebase"; // Make sure this is set up properly
 import "./Login.css";
+import { toast } from "react-toastify";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -12,17 +13,17 @@ export default function Login() {
         setLoading(true);
 
         const actionCodeSettings = {
-            url: "https://movie-flex-pi.vercel.app//finishSignIn", // make sure this matches your route
+            url: "https://movie-flex-pi.vercel.app/finishSignIn", // make sure this matches your route
             handleCodeInApp: true,
         };
 
         try {
             await sendSignInLinkToEmail(auth, email, actionCodeSettings);
             window.localStorage.setItem("emailForSignIn", email);
-            alert("✅ Sign-in link sent to your email!");
+            toast.success("Sign-in link sent! Check your email to continue.")
         } catch (error) {
             console.error("Error sending email link", error.message);
-            alert("❌ Failed to send sign-in link. Try again.");
+            toast.error(" Failed to send sign-in link. Please try again.");
         }
 
         setLoading(false);
