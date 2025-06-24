@@ -18,25 +18,25 @@ const Home = () => {
     const [topRatedMovies, setTopRatedMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
 
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            setUser(firebaseUser);
-        });
-        return () => unsubscribe();
-    }, []);
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    //         setUser(firebaseUser);
+    //     });
+    //     return () => unsubscribe();
+    // }, []);
 
     // Movie genres for categories
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
 
     const handleImageClick = async (movie) => {
-        if (!user) {
-            toast.error("Please Login to watch movies");
-            navigate('/login');
-            return;
-        }
+        // if (!user) {
+        //     toast.error("Please Login to watch movies");
+        //     navigate('/login');
+        //     return;
+        // }
         const imdbId = await fetchImdbId(movie.id);
         if (imdbId) {
             navigate(`/watch/${imdbId}`);

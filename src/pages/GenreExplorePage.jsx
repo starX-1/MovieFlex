@@ -3,10 +3,10 @@ import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { fetchMoviesByGenre } from "../services/MovieApi";
 import "./Explore.css";
 import { CircleLoader } from "react-spinners";
-import { onAuthStateChanged } from "firebase/auth"; // or your auth provider
-import { auth } from "../firebase"; // your firebase config
+// import { onAuthStateChanged } from "firebase/auth"; // or your auth provider
+// import { auth } from "../firebase"; // your firebase config
 import { fetchImdbId } from "../services/MovieApi";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const GenreExplorePage = () => {
     const { id } = useParams();
@@ -17,15 +17,15 @@ const GenreExplorePage = () => {
     const [hasMore, setHasMore] = useState(true);
 
     const genreName = location.state?.genreName || "Selected Genre";
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
     const navigate = useNavigate();  // initialize navigate
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            setUser(firebaseUser);
-        });
-        return () => unsubscribe();
-    }, []);
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    //         setUser(firebaseUser);
+    //     });
+    //     return () => unsubscribe();
+    // }, []);
 
     useEffect(() => {
         // Reset on new genre ID
@@ -55,11 +55,11 @@ const GenreExplorePage = () => {
         }
     };
     const handleImageClick = async (movie) => {
-        if (!user) {
-            toast.error("Please Login to watch movies");
-            navigate('/login');
-            return;
-        }
+        // if (!user) {
+        //     toast.error("Please Login to watch movies");
+        //     navigate('/login');
+        //     return;
+        // }
         const imdbId = await fetchImdbId(movie.id);  // make sure fetchImdbId is imported
         if (imdbId) {
             navigate(`/watch/${imdbId}`);
